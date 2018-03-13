@@ -31,7 +31,7 @@ public class FirebaseMethods {
         private FirebaseAuth.AuthStateListener mAuthListener;
         private FirebaseDatabase mFirebaseDatabase;
         private DatabaseReference myRef;
-        private String userID;
+        private String userID;  //unoque Id, not Datsmeid
 
         private Context mContext;
 
@@ -71,7 +71,8 @@ public class FirebaseMethods {
          * @param password
          * @param username
          */
-        public void registerNewEmail(final String email, String password, final String username){
+
+        public void registerNewEmail(final String email, String password, final String username,final int age,final String datsmeid){
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
@@ -97,9 +98,8 @@ public class FirebaseMethods {
 
 
 
-        public void addNewUser(String name, String DatsmeId, String email, String age, String password, double lattitude, double longitude){
-//String name, String DatsmeId, String email, String age, String password, double lattitude, double longitude
-            User user = new User( name,DatsmeId,email,age,password,lattitude,longitude );
+        public void addNewUser(String name, String DatsmeId, String email, int age, double lattitude, double longitude,String photourl){
+            User user = new User( name,DatsmeId,email,age,lattitude,longitude,photourl );
 
             myRef.child(mContext.getString(R.string.dbname_users))
                     .child(userID)

@@ -8,22 +8,22 @@ public class User {
     public String name;
     public String DatsmeId;
     public String email;
-    public String age;
-    public String password;
+    public int age;
     public double lattitude;
     public double longitude;
+    public String photoUrl;
 
     public User() {
     }
 
-    public User(String name, String DatsmeId, String email, String age, String password, double lattitude, double longitude) {
+    public User(String name, String DatsmeId, String email, int age, double lattitude, double longitude,String photoUrl) {
         this.name = name;
         this.DatsmeId = DatsmeId;
         this.email = email;
         this.age=age;
-        this.password = password;
         this.lattitude = lattitude;
         this.longitude = longitude;
+        this.photoUrl = photoUrl;
     }
 
     public String getName() {
@@ -50,21 +50,22 @@ public class User {
         this.email = email;
     }
 
-    public String getAge() {
+    public int getAge() {
         return age;
     }
 
-    public void setAge(String age) {
+    public void setAge(int age) {
         this.age = age;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPhotoUrl() {
+        return photoUrl;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
+
 
     public double getLattitude() {
         return lattitude;
@@ -89,9 +90,9 @@ public class User {
                 ", DatsmeId='" + DatsmeId + '\'' +
                 ", email='" + email + '\'' +
                 ", age='" + age + '\'' +
-                ", password='" + password + '\'' +
                 ", lattitude=" + lattitude +
                 ", longitude=" + longitude +
+                ", photoUrl='" + photoUrl + '\'' +
                 '}';
     }
 }

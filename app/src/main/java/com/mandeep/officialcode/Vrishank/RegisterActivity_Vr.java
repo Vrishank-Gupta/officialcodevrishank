@@ -28,8 +28,9 @@ public class RegisterActivity_Vr extends AppCompatActivity {
     private static final String TAG = "RegisterActivity";
 
     private Context mContext;
-    private String email, username, password;
-    private EditText mEmail, mPassword, mUsername;
+    private String email, username, password,retypePassword,id;
+    private int age;
+    private EditText mEmail, mPassword,mRetypePassword, mUsername,mId,mAge;
     private Button btnRegister;
 
 
@@ -56,6 +57,26 @@ public class RegisterActivity_Vr extends AppCompatActivity {
         init();
     }
 
+
+
+
+    /**
+     * Initialize the activity widgets
+     */
+    private void initWidgets(){
+        Log.d(TAG, "initWidgets: Initializing Widgets.");
+        mEmail = findViewById(R.id.input_email);
+        mUsername = findViewById(R.id.input_name);
+        btnRegister = findViewById(R.id.btn_signup);
+        mPassword = findViewById(R.id.input_password);
+        mRetypePassword = findViewById(R.id.input_reEnterPassword);
+        mId = findViewById(R.id.input_id);
+        mAge = findViewById(R.id.input_age);
+        mContext = RegisterActivity_Vr.this;
+
+    }
+
+
     private void init(){
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,35 +84,26 @@ public class RegisterActivity_Vr extends AppCompatActivity {
                 email = mEmail.getText().toString();
                 username = mUsername.getText().toString();
                 password = mPassword.getText().toString();
+                retypePassword = mRetypePassword.getText().toString();
+                age = Integer.valueOf(mAge.getText().toString());
+                id = mId.getText().toString();
 
-                if(checkInputs(email, username, password)){
-                    firebaseMethods.registerNewEmail(email, password, username);
+
+
+                if(checkInputs(email, username, password,retypePassword,age,id)){
+                    firebaseMethods.registerNewEmail(email, password, username,age,id);
                 }
             }
         });
     }
 
-    private boolean checkInputs(String email, String username, String password){
+    private boolean checkInputs(String email, String username, String password, String retypePassword,int age,String id){
         Log.d(TAG, "checkInputs: checking inputs for null values.");
-        if(email.equals("") || username.equals("") || password.equals("")){
-            Toast.makeText(mContext, "All fields must be filled out.", Toast.LENGTH_SHORT).show();
+        if(email.equals("") || username.equals("") || password.equals("") || retypePassword.equals("") || age == 0 || id.equals("") || !password.equals(retypePassword)){
+            Toast.makeText(mContext, "All fields must be filled out correctly.", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
-    }
-    /**
-     * Initialize the activity widgets
-     */
-    private void initWidgets(){
-        Log.d(TAG, "initWidgets: Initializing Widgets.");
-        mEmail = (EditText) findViewById(R.id.input_email);
-//        mUsername = (EditText) findViewById(R.id.input_username);
-//        btnRegister = (Button) findViewById(R.id.btnRegister);
-//        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
-//        loadingPleaseWait = (TextView) findViewById(R.id.loadingPleaseWait);
-        mPassword = (EditText) findViewById(R.id.input_password);
-//        mContext = RegisterActivity.this;
-
     }
 
     private boolean isStringNull(String string){
@@ -116,7 +128,7 @@ public class RegisterActivity_Vr extends AppCompatActivity {
         Log.d(TAG, "setupFirebaseAuth: setting up firebase auth.");
 
         mAuth = FirebaseAuth.getInstance();
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mFirebaseDatabase =FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference();
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -127,22 +139,21 @@ public class RegisterActivity_Vr extends AppCompatActivity {
                 if (user != null) {
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-
                     myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            //1st check: Make sure the username is not already in use
-                            if(firebaseMethods.checkIfUsernameExists(username, dataSnapshot)){
-                                append = myRef.push().getKey().substring(3,10);
-                                Log.d(TAG, "onDataChange: username already exists. Appending random string to name: " + append);
+
+                            //checking if username already taken
+
+                            if(firebaseMethods.checkIfUsernameExists(username,dataSnapshot))
+                            {
+                                myRef.push().getKey().substring(3,10);
+                                Log.d(TAG, "onDataChange: username exists, appending random string" + append);
+                                username = username+append;
                             }
-                            username = username + append;
-
-                            //add new user to the database
-//                            firebaseMethods.addNewUser(email, username, "", "", "");
-
-                            Toast.makeText(mContext, "Signup successful. Sending verification email.", Toast.LENGTH_SHORT).show();
-
+                            //String name, String DatsmeId, String email, int age, double lattitude, double longitude,String photourl
+                            firebaseMethods.addNewUser(username,"","",0,0,0,"");
+                            Toast.makeText(mContext, "Signup Success", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
@@ -150,12 +161,11 @@ public class RegisterActivity_Vr extends AppCompatActivity {
 
                         }
                     });
-
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
-                // ...
+                // ...s
             }
         };
     }

@@ -54,6 +54,6 @@
     <string name="submit_answers">Submit Answers</string>
     <string name="auth_failed">Failed to authenticate</string>
     <string name="auth_success">Successfully Logged In</string>
-    <string name="dbname_users">users</string>
+    <string name="dbname_users">datmefinal</string>
 
 </resources>
