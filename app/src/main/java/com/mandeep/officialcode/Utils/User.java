@@ -6,7 +6,7 @@ package com.mandeep.officialcode.Utils;
 
 public class User {
     public String name;
-    public String DatsmeId;
+    public String datsmeId;
     public String email;
     public int age;
     public double lattitude;
@@ -16,9 +16,9 @@ public class User {
     public User() {
     }
 
-    public User(String name, String DatsmeId, String email, int age, double lattitude, double longitude,String photoUrl) {
+    public User(String name, String datsmeId, String email, int age, double lattitude, double longitude,String photoUrl) {
         this.name = name;
-        this.DatsmeId = DatsmeId;
+        this.datsmeId = datsmeId;
         this.email = email;
         this.age=age;
         this.lattitude = lattitude;
@@ -35,11 +35,11 @@ public class User {
     }
 
     public String getDatsmeId() {
-        return DatsmeId;
+        return datsmeId;
     }
 
     public void setDatsmeId(String datsmeId) {
-        DatsmeId = datsmeId;
+        datsmeId = datsmeId;
     }
 
     public String getEmail() {
@@ -87,7 +87,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "name='" + name + '\'' +
-                ", DatsmeId='" + DatsmeId + '\'' +
+                ", DatsmeId='" + datsmeId + '\'' +
                 ", email='" + email + '\'' +
                 ", age='" + age + '\'' +
                 ", lattitude=" + lattitude +

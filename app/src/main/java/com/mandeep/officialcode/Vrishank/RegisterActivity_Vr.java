@@ -1,6 +1,7 @@
 package com.mandeep.officialcode.Vrishank;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -28,9 +29,9 @@ public class RegisterActivity_Vr extends AppCompatActivity {
     private static final String TAG = "RegisterActivity";
 
     private Context mContext;
-    private String email, username, password,retypePassword,id;
+    private String email, username, password,retypePassword,datsmeid;
     private int age;
-    private EditText mEmail, mPassword,mRetypePassword, mUsername,mId,mAge;
+    private EditText mEmail, mPassword,mRetypePassword, mUsername,mdatsmeid,mAge;
     private Button btnRegister;
 
 
@@ -70,7 +71,7 @@ public class RegisterActivity_Vr extends AppCompatActivity {
         btnRegister = findViewById(R.id.btn_signup);
         mPassword = findViewById(R.id.input_password);
         mRetypePassword = findViewById(R.id.input_reEnterPassword);
-        mId = findViewById(R.id.input_id);
+        mdatsmeid = findViewById(R.id.input_id);
         mAge = findViewById(R.id.input_age);
         mContext = RegisterActivity_Vr.this;
 
@@ -81,17 +82,26 @@ public class RegisterActivity_Vr extends AppCompatActivity {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                age = 0;
                 email = mEmail.getText().toString();
                 username = mUsername.getText().toString();
                 password = mPassword.getText().toString();
                 retypePassword = mRetypePassword.getText().toString();
                 age = Integer.valueOf(mAge.getText().toString());
-                id = mId.getText().toString();
+                datsmeid = mdatsmeid.getText().toString();
 
 
 
-                if(checkInputs(email, username, password,retypePassword,age,id)){
-                    firebaseMethods.registerNewEmail(email, password, username,age,id);
+                if(checkInputs(email, username, password,retypePassword,age,datsmeid)){
+                    if(firebaseMethods.registerNewEmail(email, password, username))
+                    {
+                        startActivity(new Intent(mContext,Testing.class));
+                    }
+
+                    else
+                    {
+                        Toast.makeText(mContext, "Try Again!", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -99,7 +109,8 @@ public class RegisterActivity_Vr extends AppCompatActivity {
 
     private boolean checkInputs(String email, String username, String password, String retypePassword,int age,String id){
         Log.d(TAG, "checkInputs: checking inputs for null values.");
-        if(email.equals("") || username.equals("") || password.equals("") || retypePassword.equals("") || age == 0 || id.equals("") || !password.equals(retypePassword)){
+        if(email.equals("") || username.equals("") || password.equals("") || retypePassword.equals("") || age == 0 || id.equals("") || !password.equals(retypePassword)
+                || email == null || username == null || password == null || retypePassword == null || id == null){
             Toast.makeText(mContext, "All fields must be filled out correctly.", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -152,7 +163,7 @@ public class RegisterActivity_Vr extends AppCompatActivity {
                                 username = username+append;
                             }
                             //String name, String DatsmeId, String email, int age, double lattitude, double longitude,String photourl
-                            firebaseMethods.addNewUser(username,"","",0,0,0,"");
+//                            firebaseMethods.addNewUser(username,"","",0,0,0,"");
                             Toast.makeText(mContext, "Signup Success", Toast.LENGTH_SHORT).show();
                         }
 

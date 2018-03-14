@@ -32,6 +32,7 @@ public class FirebaseMethods {
         private FirebaseDatabase mFirebaseDatabase;
         private DatabaseReference myRef;
         private String userID;  //unoque Id, not Datsmeid
+        private boolean sucess;
 
         private Context mContext;
 
@@ -72,7 +73,7 @@ public class FirebaseMethods {
          * @param username
          */
 
-        public void registerNewEmail(final String email, String password, final String username,final int age,final String datsmeid){
+        public boolean registerNewEmail(final String email, String password, final String username){
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
@@ -85,26 +86,32 @@ public class FirebaseMethods {
                             if (!task.isSuccessful()) {
                                 Toast.makeText(mContext, R.string.auth_failed,
                                         Toast.LENGTH_SHORT).show();
+                                sucess = false;
 
                             }
                             else if(task.isSuccessful()){
                                 userID = mAuth.getCurrentUser().getUid();
                                 Log.d(TAG, "onComplete: Authstate changed: " + userID);
+                                Toast.makeText(mContext,"Success",Toast.LENGTH_SHORT).show();
+                                sucess = true;
+
                             }
 
                         }
                     });
+
+            return sucess;
         }
 
 
 
-        public void addNewUser(String name, String DatsmeId, String email, int age, double lattitude, double longitude,String photourl){
-            User user = new User( name,DatsmeId,email,age,lattitude,longitude,photourl );
-
-            myRef.child(mContext.getString(R.string.dbname_users))
-                    .child(userID)
-                    .setValue(user);
-        }
+//        public void addNewUser(String name, String DatsmeId, String email, int age, double lattitude, double longitude,String photourl){
+//            User user = new User( name,DatsmeId,email,age,lattitude,longitude,photourl );
+//
+//            myRef.child(mContext.getString(R.string.dbname_users))
+//                    .child(userID)
+//                    .setValue(user);
+//        }
 
 }
 
