@@ -1,6 +1,7 @@
 package com.mandeep.officialcode.Utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
@@ -13,6 +14,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mandeep.officialcode.R;
+import com.mandeep.officialcode.Vrishank.Testing;
 
 /**
  * Created by vrishankgupta on 13/03/18.
@@ -93,6 +95,7 @@ public class FirebaseMethods {
                                 userID = mAuth.getCurrentUser().getUid();
                                 Log.d(TAG, "onComplete: Authstate changed: " + userID);
                                 Toast.makeText(mContext,"Success",Toast.LENGTH_SHORT).show();
+                                mContext.startActivity(new Intent(mContext, Testing.class));
                                 sucess = true;
 
                             }
@@ -105,13 +108,13 @@ public class FirebaseMethods {
 
 
 
-//        public void addNewUser(String name, String DatsmeId, String email, int age, double lattitude, double longitude,String photourl){
-//            User user = new User( name,DatsmeId,email,age,lattitude,longitude,photourl );
-//
-//            myRef.child(mContext.getString(R.string.dbname_users))
-//                    .child(userID)
-//                    .setValue(user);
-//        }
+        public void addNewUser(String name, String DatsmeId, String email, int age, double lattitude, double longitude,String photourl){
+            User user = new User( name,DatsmeId,email,age,lattitude,longitude,photourl );
+
+            myRef.child(mContext.getString(R.string.dbname_users))
+                    .child(userID)
+                    .setValue(user);
+        }
 
 }
 

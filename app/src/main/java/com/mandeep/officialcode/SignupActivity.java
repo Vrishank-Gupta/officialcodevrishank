@@ -36,7 +36,7 @@ public class SignupActivity extends AppCompatActivity {
     EditText _IdText;
     @BindView(R.id.input_email)
     EditText _email;
-    @BindView(R.id.input_age)
+//    @BindView(R.id.input_age)
     EditText _age;
     @BindView(R.id.input_password)
     EditText _passwordText;

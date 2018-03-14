@@ -72,7 +72,7 @@ public class RegisterActivity_Vr extends AppCompatActivity {
         mPassword = findViewById(R.id.input_password);
         mRetypePassword = findViewById(R.id.input_reEnterPassword);
         mdatsmeid = findViewById(R.id.input_id);
-        mAge = findViewById(R.id.input_age);
+//        mAge = findViewById(R.id.input_age);
         mContext = RegisterActivity_Vr.this;
 
     }
@@ -82,34 +82,31 @@ public class RegisterActivity_Vr extends AppCompatActivity {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                age = 0;
-                email = mEmail.getText().toString();
-                username = mUsername.getText().toString();
-                password = mPassword.getText().toString();
-                retypePassword = mRetypePassword.getText().toString();
-                age = Integer.valueOf(mAge.getText().toString());
-                datsmeid = mdatsmeid.getText().toString();
+
+                    age = 0;
+                    username = mUsername.getText().toString();
+                    email = mEmail.getText().toString();
+                    password = mPassword.getText().toString();
+                    retypePassword = mRetypePassword.getText().toString();
+                    datsmeid = mdatsmeid.getText().toString();
 
 
 
-                if(checkInputs(email, username, password,retypePassword,age,datsmeid)){
+
+                if(checkInputs(email, username, password,retypePassword,datsmeid))
+                {
                     if(firebaseMethods.registerNewEmail(email, password, username))
                     {
                         startActivity(new Intent(mContext,Testing.class));
-                    }
-
-                    else
-                    {
-                        Toast.makeText(mContext, "Try Again!", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
         });
     }
 
-    private boolean checkInputs(String email, String username, String password, String retypePassword,int age,String id){
+    private boolean checkInputs(String email, String username, String password, String retypePassword,String id){
         Log.d(TAG, "checkInputs: checking inputs for null values.");
-        if(email.equals("") || username.equals("") || password.equals("") || retypePassword.equals("") || age == 0 || id.equals("") || !password.equals(retypePassword)
+        if(email.equals("") || username.equals("") || password.equals("") || retypePassword.equals("")  || id.equals("") || !password.equals(retypePassword)
                 || email == null || username == null || password == null || retypePassword == null || id == null){
             Toast.makeText(mContext, "All fields must be filled out correctly.", Toast.LENGTH_SHORT).show();
             return false;
